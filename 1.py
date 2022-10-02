@@ -1,44 +1,42 @@
 import math
+import random
 
+# Напишите программу, которая принимает на вход вещественное число и показывает сумму его цифр.
+number = input().strip().strip("-").strip("+")
+print(sum([int(i) for i in number]))
 
-day_of_weak = input()
-print("ДА") if day_of_weak == 6 or day_of_weak == 7 else print("Нет")
+# Напишите программу, которая принимает на вход число N и выдает набор произведений чисел от 1 до N.
+# Пример:
+# пусть N = 4, тогда (1, 1*2, 1*2*3, 1*2*3*4)
 
-x = int(input("X:"))
-y = int(input("Y:"))
-z = int(input("Z:"))
-print(not(x or y or z) == (not x and not y and not z))
+number = int(input())
+list_new = []
+for i in range(1, number+1):
+    print(i)
+    list_new.append(math.factorial(i))
+print(list_new)
 
-x = int(input('Введите число x≠0:'))
-y = int(input('Введите число y≠0:'))
+# Задайте список из n чисел последовательности (1+1/n)^n
+# Выведитте на экран саму последовательность и сумму элеементов этой последовательности
+# (для проверки сумма для 4 элементов = 9,06 (примерно))
 
+n = int(input())
+p = [(1+1/i)**i for i in range(1, n+1)]
+print(p)
+print((sum(p)))
 
-if x == 0 or y == 0:
-    raise Exception("not 0")
-elif x > 0 and y > 0:
-    print(
-        f'При координатах x = {x} и y = {y} ваша точка находится в плоскости 1 ')
-elif x < 0 and y > 0:
-    print(
-        f'При координатах x = {x} и y = {y} ваша точка находится в плоскости 2 ')
-elif x < 0 and y < 0:
-    print(
-        f'При координатах x = {x} и y = {y} ваша точка находится в плоскости 3 ')
-elif x > 0 and y < 0:
-    print(
-        f'При координатах x = {x} и y = {y} ваша точка находится в плоскости 4 ')
+# Реализуйте алгоритм перемешивания списка, без использования встроеных методов
+# (особенно SHUFFLE, без него) можно (нужно) использовать библиотеку Random
+my_list = [5, 9, 10, 11, 20]
+def rand_sh(list):
+    buf = 0
+    for i in range(len(list)):
+        rand_number_index = random.randint(0, len(list)-1)
+        buf = list[i]
+        list[i] = list[rand_number_index]
+        list[rand_number_index] = buf
+    return list
 
-a = int(input("Enter number of quarter of axis:  "))
-
-if a == 1: print(" The first axis: x from 0 to + ∞, y from 0 to + ∞")
-elif a == 2: print(" The second axis: x from 0 to  - ∞, y from 0  to + ∞ ")
-elif a == 3: print(" The third axis: x from 0 to  - ∞, y from 0  to - ∞ ")
-elif a == 4: print(" The four axis: x from 0 to  + ∞, y from 0  to - ∞ ")
-
-x_coordinate_A = float(input('Введите координату точки А по оси Х: '))
-y_coordinate_A = float(input('Введите координату точки А по оси Y: '))
-x_coordinate_B = float(input('Введите координату точки B по оси Х: '))
-y_coordinate_B = float(input('Введите координату точки B по оси Y: '))
-
-distance = round(math.sqrt((x_coordinate_B - x_coordinate_A)**2 + (y_coordinate_B - y_coordinate_A)**2), 2)
-print(distance)
+print(my_list)
+my_list = rand_sh(my_list)
+print(my_list)
