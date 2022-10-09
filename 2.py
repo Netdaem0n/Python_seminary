@@ -1,23 +1,20 @@
-print(f"""# <Задание 2>
-# Напишите программу, которая найдёт произведение пар чисел списка.
-# Парой считаем первый и последний элемент, второй и предпоследний и т.д.""")
+print(f"""Задайте натуральное число N. Напишите программу, которая составит список простых множителей числа N.""")
 
+n = int(input("Введите N: "))
 
-my_list1 = [11, 3, 6, 110, 20, 19, 33, 4, 11, 15]
-my_list2 = [11, 3, 6, 5, 3]
+list = []
+i = 2
 
+while n != 0 :
+    if n >=0 and n <= 9:
+        list.append(n)
+        break
+    if n % i == 0:
+        list.append(i)
+        n = n // i
+        i = 2
+    else:
+        i += 1
 
-def remove_it(my_list):
-    if len(my_list) % 2 == 0:
-        list2 = [my_list[i] * my_list[-1 - i] for i in range(0, int(len(my_list)/2))]
-        print(f"Результат (список четный) - {list2}")
-    if len(my_list) % 2 != 0:
-        pop_obj = len(my_list) // 2
-        print("Лишний элемент (индекс)- ", pop_obj)
-        my_list.pop(pop_obj)
-        list2 = [my_list[i] * my_list[-1 - i] for i in range(0, int(len(my_list)/2))]
-        print(f"Результат (список нечетный) - {list2}")
+print(list)
 
-
-remove_it(my_list1)
-remove_it(my_list2)
