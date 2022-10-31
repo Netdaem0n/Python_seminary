@@ -50,8 +50,4 @@ else:
     print(f"Выиграл {player2}")
 
 
-while True:
-    print(f"On table - {konfety}")
-    print()
-
 
