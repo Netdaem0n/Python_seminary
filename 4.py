@@ -1,52 +1,54 @@
-print(f"""Задана натуральная степень k. Сформировать случайным образом список коэффициентов (значения от -100 до 100)
-многочлена и записать в файл многочлен степени k
-k - максимальная степень многочлена, следующий степень на 1 меньше и так до ноля
-Коэффициенты расставляет random, поэтому при коэффициенте 0 просто пропускаем данную итерацию степени
-
-Пример:
-k=2 -> 2x² + 4x + 5 = 0 или x² + 5 = 0 или 10x² = 0
-k=5 -> 3x⁵ + 5x⁴ - 6x³ - 3x = 0
-""")
-
-import random
+# 4. Реализуйте RLE алгоритм: реализуйте модуль сжатия и восстановления данных.
+# Входные и выходные данные хранятся в отдельных текстовых файлах.
+#
+# Пример: aaaaaaabbbbbbcccccccccd => 7a6b9c1d или 11a3b7c1d => aaaaaaaaaaabbbcccccccd
+file_name_in = "in.txt"
+file_name_out = "out.txt"
 
 
-def write_file(st):
-    with open('file33.txt', 'w') as data:
-        data.write(st)
+def open_file(file):
+    with open(file, "r") as f:
+        file_data = f.read()
+    return file_data
+
+def write_file(file, data):
+    with open(file, "w") as f:
+        f.write(data)
 
 
-def rnd():
-    return random.randint(-100, 101)
+
+def compress(my_string: str) -> str:
+    counter = 1
+    result = ""
+    curr = ""
+    for i in range(1, len(my_string)):
+        prev = my_string[i - 1]
+        curr = my_string[i]
+
+        if prev == curr:
+            counter += 1
+        elif prev != curr:
+            result += f'{counter}{prev}'
+            counter = 1
+
+    result += f'{counter}{curr}'
+    return result
 
 
-def create_mn(k):
-    lst = [rnd() for i in range(k + 1)]
-    return lst
+def decompress(some_string: str) -> str:
+    result = ""
+    num = ""
 
+    for c in some_string:
+        if ord('0') <= ord(c) <= ord('9'):
+            num += c
+        else:
+            result += c * int(num)
+            num = ""
 
-def create_str(sp):
-    lst = sp[::-1]
-    wr = ''
-    if len(lst) < 1:
-        wr = 'x = 0'
-    else:
-        for i in range(len(lst)):
-            if i != len(lst) - 1 and lst[i] != 0 and i != len(lst) - 2:
-                wr += f'{lst[i]}x^{len(lst) - i - 1}'
-                if lst[i + 1] != 0:
-                    wr += ' + '
-            elif i == len(lst) - 2 and lst[i] != 0:
-                wr += f'{lst[i]}x'
-                if lst[i + 1] != 0:
-                    wr += ' + '
-            elif i == len(lst) - 1 and lst[i] != 0:
-                wr += f'{lst[i]} = 0'
-            elif i == len(lst) - 1 and lst[i] == 0:
-                wr += ' = 0'
-    return wr
+    return result
 
+print(compress("aaaaaaabbbbbbcccccccccd"))
+print(decompress("7a6b9c1d"))
 
-k = int(input("Введите натуральную степень k = "))
-koef = create_mn(k)
-write_file(create_str(koef))
+write_file(file_name_out, compress(open_file(file_name_in)))

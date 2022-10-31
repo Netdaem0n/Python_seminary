@@ -1,20 +1,99 @@
-print(f"""Задайте последовательность цифр. Напишите программу, которая выведет список неповторяющихся элементов
-исходной последовательности.
-Пример:
-47756688399943 -> [5]
-1113384455229 -> [8,9]
-1115566773322 -> []""")
+# 3. Создайте программу для игры в 'Крестики-нолики'.
+#
+WINNER_POSITIONS = ({0, 1, 2}, {3, 4, 5}, {6, 7, 8},
+                    {0, 3, 6}, {1, 4, 7}, {2, 5, 8},
+                    {0, 4, 8}, {2, 4, 6})
 
-n = input("введите последовательность: ")
-
-numbers = "0123456789"
-
-for i in numbers:
-    temp = n.count(i)
-    if temp > 1:
-        n = n.replace(i, "")
-
-print(list(n))
+CHAR_X = "X"
+CHAR_O = "O"
 
 
+def convert_coordinates(coord_x, coord_y):
+    return (coord_x - 1) + (3 * (3 - coord_y))
 
+
+def cell_occupied(coord_x, coord_y):
+    return not field[convert_coordinates(coord_x, coord_y)] == " "
+
+
+def user_input_correct(checked_input):
+    global user_x
+    global user_y
+
+    try:
+        user_x, user_y = [int(x) for x in checked_input.split()]
+    except ValueError:
+        print("You should enter numbers!")
+        return False
+
+    if user_x > 3 or user_y > 3 or user_x < 1 or user_y < 1:
+        print("Coordinates should be from 1 to 3!")
+        return False
+    elif cell_occupied(user_x, user_y):
+        print("This cell is occupied! Choose another one!")
+        return False
+    return True
+
+
+def is_winner(char):
+    current_pos = {i for i in range(len(field)) if field[i] == char}
+    for winner_pos in WINNER_POSITIONS:
+        if current_pos.issuperset(winner_pos):
+            return True
+
+    return False
+
+
+def check_winner():
+    global winner
+    if is_winner(CHAR_X):
+        winner = CHAR_X
+    elif is_winner(CHAR_O):
+        winner = CHAR_O
+
+
+def no_more_turns():
+    return field.count(" ") == 0
+
+
+def game_finished():
+    return no_more_turns() or winner is not None
+
+
+def check_state():
+    if winner is not None:
+        print(f"{winner} wins")
+    elif no_more_turns():
+        print("Draw")
+
+
+def update_field(coord_x, coord_y, char):
+    field[convert_coordinates(coord_x, coord_y)] = char
+
+
+def print_field():
+    print(9 * "-")
+    for row in range(3):
+        print("|", " ".join(field[row * 3: 3 + row * 3]), "|")
+    print(9 * "-")
+
+
+winner = None
+current_turn = CHAR_X  # X starts first
+user_x = 0
+user_y = 0
+
+field = list(9 * " ")
+print_field()
+
+
+while not game_finished():
+
+    user_input = input("Enter the coordinates:")
+
+    if user_input_correct(user_input):
+        update_field(user_x, user_y, current_turn)
+        current_turn = CHAR_X if current_turn == CHAR_O else CHAR_O
+        print_field()
+        check_winner()
+        check_state()
