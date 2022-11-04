@@ -1,6 +1,6 @@
 import sys
 
-data = " (4*3)+(2/2)"
+data = " 1+10/2 + 3*8"
 
 data = data.strip()
 data_temp = ""
@@ -68,19 +68,31 @@ while len(data) > 1:
                         data[i - 1] = data[i - 1] * data[i + 1]
                         data[i] = "D"
                         data[i + 1] = "D"
+                        break
+
                     if data[i] == "/":
                         data[i - 1] = data[i - 1] / data[i + 1]
                         data[i] = "D"
                         data[i + 1] = "D"
+                        break
+
+            data = [x for x in data if x != "D"]
+
+
+            for i in range(len(data)):
                 if data[i] == "+" or data[i] == "-":
                     if data[i] == "+":
                         data[i - 1] = data[i - 1] + data[i + 1]
                         data[i] = "D"
                         data[i + 1] = "D"
+                        break
+
                     if data[i] == "-":
                         data[i - 1] = data[i - 1] - data[i + 1]
                         data[i] = "D"
                         data[i + 1] = "D"
+                        break
+
             data = [x for x in data if x != "D"]
 
 print(data)
