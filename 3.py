@@ -7,7 +7,8 @@ def remove_any(data):
     data = str(data)
     return list(data.strip().strip("-").strip("+"))
 
-chislo = "-+0.,6782"
+# chislo = "-+0.,6782"
+chislo = input("Введите число - ")
 
 chislo = remove_any(chislo)
 chislo_new = list(map(lambda x: x.replace(".", "0").replace(",", "0"), chislo))
