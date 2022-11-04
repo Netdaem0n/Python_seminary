@@ -62,6 +62,8 @@ while len(data) > 1:
 
 
     if stop != 1:
+
+        while "*" in data or "/" in data:
             for i in range(len(data)):
                 if data[i] == "*" or data[i] == "/":
                     if data[i] == "*":
@@ -69,6 +71,7 @@ while len(data) > 1:
                         data[i] = "D"
                         data[i + 1] = "D"
                         break
+
 
                     if data[i] == "/":
                         data[i - 1] = data[i - 1] / data[i + 1]
@@ -78,6 +81,7 @@ while len(data) > 1:
 
             data = [x for x in data if x != "D"]
 
+        while "+" in data or "-" in data:
 
             for i in range(len(data)):
                 if data[i] == "+" or data[i] == "-":
